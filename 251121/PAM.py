@@ -1,7 +1,4 @@
-
-# pip install scikit-learn-extra
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from sklearn_extra.cluster import KMedoids
 
