@@ -1,0 +1,174 @@
+Data regression
+Linear - Tuyến tính
+Polynominal - Đa thức
+Logistic
+Ridge
+Lasso
+
+
+-HỒI QUY
+	Là một kỹ thuật khai thác dữ liệu dùng để dự đoán các giá trị số của một tập dữ liệu
+- MÔ HÌNH HỒI QUY (Regression model)
+	Được dùng để mô tả mối liên hệ giữa một tập các biến dự báo và một hay nhiều biến đáp ứng
+-Bài toán hồi quy
+	Y = f(X,β)
+	
+	
+Hồi quy tuyến tính (Linear regression):
+	là loại hồi quy hình thành mqh giữa biến mục tiêu và một hoặc nhiều biến độc lập
+	công thức:
+		Y = b0+b1X1+b2X2...bnXn
+			n - số đối tượng
+			Y - biến phụ thuộc
+			X - biến độc lập
+			b0 - giá trị của Y khi X=0
+	
+Logistic regression
+	https://en.wikipedia.org/wiki/Logistic_regression
+	
+	
+========================
+Phân cụm dữ liệu
+	là 1 kỹ thuật trong khai phá dữ liệu nhằm tìm kiếm & phát hiện các cụm, các mẫu xét nghiệm tiềm ẩn, từ đó cung cấp thông tin hay tri thức hữu ích
+	
+	>Kỹ thuật phân cụm
+		-Partitioning methods (phân cụm phân hạch)
+		-Hierarchical methods (phân cụm phân cấp)
+		-Density-based methods (phân cụm dựa trên mật độ)
+		-Grid-based methods (phân cụm dựa trên lưới)
+		-Model-based methods (phân cụm dựa trên mô hình)
+		- (phân cụm có ràng buộc) 
+	>Các thuật toán
+		- k-means
+		- PAM
+		- CLARA
+		- CLARANS
+		===>QUAN TRỌNG, SẼ THI<===
+
+	>>Thuật toán k-means
+		sinh ra (k) cụm c1, c2, c3...ck từ một tập dữ liệu gồm n đối tượng trong không gian d chiều.
+		một điểm dữ liệu được ký hiệu như sau:
+			Xi = (Xi1, Xi2, ...Xid)
+			sao cho:
+				Error = ∑_{i=1}^{k} ∑_{x ∈ C_i} ||x - m_i||^2
+				Trong đó:
+				- k: là số lượng cụm.
+				- C_i: là cụm thứ i.
+				- m_i: là tâm (centroid) của cụm C_i.
+				- x: là một điểm dữ liệu thuộc cụm C_i.
+				- ||x - m_i||^2: là bình phương khoảng cách Euclidean giữa điểm dữ liệu x và tâm cụm m_i.
+		THUẬT TOÁN:
+			InPut: số cụm k và các trọng tâm cụm {m_j}^k j=1
+			OutPut: các cụm C_i (i=1,k) và hàm tieu chuẩn E đạt
+
+			Bước 1:
+				xác định các trọng tâm của k cụm m_1, m_2, m_3...m_k trong không gian (d) chiều bằng 2 phương pháp
+					pp1: dựa trên kinh nghiệm
+					pp2: chọn ngẫu nhiên
+			Bước 2:
+				tìm khoảng cách của các điểm dữ liệu với trọng tâm cụm theo công thức:
+					d(x, m_i) = ||x - m_i||^2
+			Bước 3:
+				phân điểm dữ liệu vào cụm có hàm khoảng cách từ điểm dữ liệu đến trọng tâm cụm nhỏ nhất
+			Bước 4:
+				cập nhật lại trọng tâm cụm, với mỗi trọng tâm cụm m_j cần tính lại trọng tâm của tâm cụm bằng công thức:
+					m_j = (1 / |C_j|) * ∑_{x ∈ C_j} x
+					Trong đó |C_j| là số lượng điểm dữ liệu trong cụm C_j.
+			Bước 5:
+				Lặp lại Bước 2, 3 và 4 cho đến khi các tâm cụm không còn thay đổi (hoặc thay đổi không đáng kể) sau mỗi lần lặp.
+
+		BÀI TẬP:
+			cho tập dữ liệu khách hàng tại một siêu thị gồm
+				Mã Khách Hàng | giới tính | Tuổi | Thu nhập | Chi tiêu
+					CT1				F		68		10			13
+					CT2				M		18		20			77
+					CT3				M		48		25			15
+					CT4				F		40		56			79
+					CT5				F		32		30			32
+					CT6				M		24		60			64
+			sử dụng thuật toán k-means và độ đo manhatan, phân tập dữ liệu khách hàng dựa trên 2 thuộc tính "Thu nhập" và "Chi tiêu"
+			GIẢI:
+			Dữ liệu các điểm (Thu nhập, Chi tiêu):
+			P1(10, 13), P2(20, 77), P3(25, 15), P4(56, 79), P5(30, 32), P6(60, 64)
+
+			Công thức tính khoảng cách Manhattan: d(p, q) = |p_x - q_x| + |p_y - q_y|
+
+			**Bước 1: Chọn ngẫu nhiên 2 tâm cụm (centroid) ban đầu. k=2.**
+			- Chọn m1 = P1 = (10, 13)
+			- Chọn m2 = P4 = (56, 79)
+
+			**LẶP LẦN 1:**
+			**Bước 2 & 3: Phân các điểm vào cụm gần nhất.**
+			- P1(10, 13): d(P1, m1)=0; d(P1, m2)=112 -> Thuộc Cụm 1
+			- P2(20, 77): d(P2, m1)=74; d(P2, m2)=38 -> Thuộc Cụm 2
+			- P3(25, 15): d(P3, m1)=17; d(P3, m2)=95 -> Thuộc Cụm 1
+			- P4(56, 79): d(P4, m1)=112; d(P4, m2)=0 -> Thuộc Cụm 2
+			- P5(30, 32): d(P5, m1)=39; d(P5, m2)=73 -> Thuộc Cụm 1
+			- P6(60, 64): d(P6, m1)=101; d(P6, m2)=19 -> Thuộc Cụm 2
+
+			=> Cụm 1 (C1) = {P1, P3, P5}
+			=> Cụm 2 (C2) = {P2, P4, P6}
+
+			**Bước 4: Cập nhật lại tâm cụm.**
+			- m1_new = ( (10+25+30)/3, (13+15+32)/3 ) = (21.67, 20)
+			- m2_new = ( (20+56+60)/3, (77+79+64)/3 ) = (45.33, 73.33)
+
+			**LẶP LẦN 2:**
+			**Bước 2 & 3: Phân các điểm vào cụm gần nhất với tâm mới.**
+			Tâm cụm mới: m1 = (21.67, 20), m2 = (45.33, 73.33)
+			- P1(10, 13): d(P1, m1)=18.67; d(P1, m2)=95.66 -> Thuộc Cụm 1
+			- P2(20, 77): d(P2, m1)=58.67; d(P2, m2)=29 -> Thuộc Cụm 2
+			- P3(25, 15): d(P3, m1)=8.33; d(P3, m2)=78.66 -> Thuộc Cụm 1
+			- P4(56, 79): d(P4, m1)=73.33; d(P4, m2)=16.34 -> Thuộc Cụm 2
+			- P5(30, 32): d(P5, m1)=20.33; d(P5, m2)=56.66 -> Thuộc Cụm 1
+			- P6(60, 64): d(P6, m1)=62.33; d(P6, m2)=24 -> Thuộc Cụm 2
+
+			=> Cụm 1 (C1) = {P1, P3, P5}
+			=> Cụm 2 (C2) = {P2, P4, P6}
+
+			**Bước 5: Kiểm tra điều kiện dừng.**
+			Việc phân cụm ở "LẶP LẦN 2" không thay đổi so với "LẶP LẦN 1". Thuật toán hội tụ.
+
+			**KẾT QUẢ CUỐI CÙNG:**
+			- **Cụm 1:** {CT1, CT3, CT5} - Nhóm khách hàng có thu nhập và chi tiêu thấp.
+			  - Tâm cụm: (21.67, 20)
+			- **Cụm 2:** {CT2, CT4, CT6} - Nhóm khách hàng có thu nhập và chi tiêu cao.
+			  - Tâm cụm: (45.33, 73.33)
+			
+	>> Thuật toán PAM
+		PAM (Partitioning Around Medoids) là một thuật toán phân cụm phân hoạch, được xem như một phiên bản cải tiến của K-Means.
+		Điểm khác biệt chính là PAM sử dụng **medoid** làm tâm cụm thay vì **centroid** (tâm trung bình).
+		- **Medoid**: Là một **đối tượng có thật** trong tập dữ liệu, được chọn làm đại diện cho một cụm vì nó có tổng khoảng cách đến các đối tượng khác trong cùng cụm là nhỏ nhất.
+		- **Ưu điểm**: Vì medoid là điểm dữ liệu thực tế, thuật toán PAM ít bị ảnh hưởng bởi các giá trị ngoại lai (outliers) hơn so với K-Means.
+
+		THUẬT TOÁN:
+			Mục tiêu là tìm ra một tập hợp k medoid để tối thiểu hóa tổng chi phí (tổng khoảng cách từ mỗi đối tượng đến medoid gần nhất của nó).
+			Chi phí = ∑_{i=1}^{k} ∑_{p ∈ C_i} d(p, m_i)
+			Trong đó:
+			- k: là số lượng cụm.
+			- C_i: là cụm thứ i.
+			- m_i: là medoid của cụm C_i.
+			- p: là một điểm dữ liệu thuộc cụm C_i.
+			- d(p, m_i): là khoảng cách giữa điểm p và medoid m_i (ví dụ: Euclidean, Manhattan).
+
+			Các bước thực hiện:
+			Bước 1: 
+				- Chọn ngẫu nhiên k đối tượng từ tập dữ liệu để làm k medoid ban đầu.
+			Bước 2: 
+				- tính khoảng cách giữa các điểm dữ liệu với (k)medoid.
+				- Gán mỗi đối tượng còn lại vào cụm có medoid gần nó nhất.
+			Bước 3: 
+				- Với mỗi cụm, duyệt qua từng đối tượng không phải là medoid (gọi là O_p).
+			Bước 4: 
+				- Tính toán chi phí nếu hoán đổi medoid hiện tại (m_i) với O_p.
+			Bước 5:
+				- Nếu việc hoán đổi làm giảm tổng chi phí (TC_mp, tức "Total Cost" hay tổng chi phí), thực hiện hoán đổi (p_non-medoid trở thành medoid mới).
+			Bước 6:
+				- Lặp lại Bước 2 và 3 cho đến khi không có sự thay đổi nào về medoid sau một vòng lặp (thuật toán hội tụ).
+
+			BÀI TẬP:
+			cho 1 tệp dữ liệu KH tại một siêu thị gồm các thuộc tính: :
+				|ID		|MKH	|Thu nhập	|CS Tiêu dùng	|
+			Sử dụng thuật toán PAM và độ đo Manhattan để phân chia tập dữ liệu thành 3 cụm.
+	>> Thuật toán BIRCH
+		BIRCH (Balanced Iterative Reducing and Clustering using Hierarchies)

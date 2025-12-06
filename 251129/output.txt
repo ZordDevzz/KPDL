@@ -1,0 +1,170 @@
+
+# Phân Lớp Dữ Liệu Bằng Thuật Toán CART
+
+Dưới đây là quá trình từng bước xây dựng cây quyết định (Decision Tree) bằng thuật toán CART dựa trên file `data.csv`.
+
+- **Thuộc tính (Features):** Weather, Parrent, Money
+- **Mục tiêu (Target):** Decision
+- **Tổng số mẫu:** 10
+
+## Bảng Dữ Liệu Gốc
+
+| Weekend | Weather | Parrent | Money | Decision |
+|---------|---------|---------|-------|----------|
+| w1      | sunny   | yes     | rich  | cinema   |
+| w2      | sunny   | no      | rich  | tennis   |
+| w3      | windy   | yes     | rich  | cinema   |
+| w4      | rainy   | yes     | poor  | cinema   |
+| w5      | rainy   | no      | rich  | stayin   |
+| w6      | rainy   | yes     | poor  | cinema   |
+| w7      | windy   | no      | poor  | cinema   |
+| w8      | windy   | no      | rich  | shopping |
+| w9      | windy   | yes     | rich  | cinema   |
+| w10     | sunny   | no      | rich  | tennis   |
+
+---
+
+## Bước 1: Tìm Nút Gốc (Root Node)
+
+### 1.1. Tính Gini Impurity cho tập dữ liệu gốc (Root)
+
+Tần suất các lớp trong biến `Decision`:
+- `cinema`: 6/10 = 0.6
+- `tennis`: 2/10 = 0.2
+- `stayin`: 1/10 = 0.1
+- `shopping`: 1/10 = 0.1
+
+Công thức Gini Impurity: Gini = 1 - Σ(p_i)^2
+
+Gini(Root) = 1 - [ (0.6)^2 + (0.2)^2 + (0.1)^2 + (0.1)^2 ]
+Gini(Root) = 1 - [ 0.36 + 0.04 + 0.01 + 0.01 ]
+Gini(Root) = 1 - 0.42 = **0.58**
+
+### 1.2. Tính Gini Impurity có trọng số cho mỗi thuộc tính
+
+#### A. Thuộc tính `Parrent` (yes/no)
+- **Nhánh `Parrent` = 'yes' (5 mẫu):**
+  - {cinema, cinema, cinema, cinema, cinema} -> Toàn bộ là 'cinema'
+  - Gini(Parrent=yes) = 1 - (5/5)^2 = 0 (Nút thuần khiết)
+- **Nhánh `Parrent` = 'no' (5 mẫu):**
+  - {tennis, stayin, cinema, shopping, tennis}
+  - Tần suất: tennis (2), stayin (1), cinema (1), shopping (1)
+  - Gini(Parrent=no) = 1 - [ (2/5)^2 + (1/5)^2 + (1/5)^2 + (1/5)^2 ] = 1 - 0.28 = 0.72
+
+Gini_trọng_số(Parrent) = (5/10) * Gini(Parrent=yes) + (5/10) * Gini(Parrent=no)
+Gini_trọng_số(Parrent) = (0.5 * 0) + (0.5 * 0.72) = **0.36**
+
+#### B. Thuộc tính `Money` (rich/poor)
+- **Nhánh `Money` = 'rich' (7 mẫu):**
+  - {cinema, tennis, cinema, stayin, shopping, cinema, tennis}
+  - Tần suất: cinema (3), tennis (2), stayin (1), shopping (1)
+  - Gini(Money=rich) = 1 - [ (3/7)^2 + (2/7)^2 + (1/7)^2 + (1/7)^2 ] ≈ 1 - 0.306 = 0.694
+- **Nhánh `Money` = 'poor' (3 mẫu):**
+  - {cinema, cinema, cinema} -> Toàn bộ là 'cinema'
+  - Gini(Money=poor) = 1 - (3/3)^2 = 0 (Nút thuần khiết)
+
+Gini_trọng_số(Money) = (7/10) * Gini(Money=rich) + (3/10) * Gini(Money=poor)
+Gini_trọng_số(Money) = (0.7 * 0.694) + (0.3 * 0) ≈ **0.486**
+
+#### C. Thuộc tính `Weather` (sunny, windy, rainy)
+CART yêu cầu chia nhị phân. Ta phải xét tất cả các cách chia đôi có thể có:
+1.  **{sunny} vs {windy, rainy}:** Gini_trọng_số ≈ **0.448**
+2.  **{windy} vs {sunny, rainy}:** Gini_trọng_số ≈ **0.517**
+3.  **{rainy} vs {sunny, windy}:** Gini_trọng_số ≈ **0.533**
+Cách chia tốt nhất cho `Weather` là `{sunny}` vs `{windy, rainy}`.
+
+### 1.3. Chọn thuộc tính phân chia tốt nhất
+
+So sánh Gini Impurity có trọng số thấp nhất:
+- Gini(Parrent) = **0.36** (Thấp nhất)
+- Gini(Money) = 0.486
+- Gini(Weather) = 0.448
+
+**=> `Parrent` được chọn làm nút gốc.**
+
+---
+
+## Bước 2: Phát triển các nhánh từ Nút Gốc
+
+Cây bắt đầu với nút `Parrent`:
+- **Nhánh 1: `Parrent` = 'yes'**
+  - Tập dữ liệu này chứa 5 mẫu và tất cả đều có `Decision` là 'cinema'.
+  - Đây là một **nút lá (leaf node)** và kết quả là **`cinema`**. Nhánh này kết thúc.
+
+- **Nhánh 2: `Parrent` = 'no'**
+  - Tập dữ liệu này chứa 5 mẫu, cần phải chia tiếp.
+  - **Bảng dữ liệu con (Parrent = no):**
+    | Weekend | Weather | Parrent | Money | Decision |
+    |---------|---------|---------|-------|----------|
+    | w2      | sunny   | no      | rich  | tennis   |
+    | w5      | rainy   | no      | rich  | stayin   |
+    | w7      | windy   | no      | poor  | cinema   |
+    | w8      | windy   | no      | rich  | shopping |
+    | w10     | sunny   | no      | rich  | tennis   |
+  - Gini(Parrent=no) = 0.72. Ta cần tìm cách chia tốt nhất cho tập con này.
+
+### 2.1. Tìm cách chia tốt nhất cho nút `Parrent` = 'no'
+
+#### A. Thuộc tính `Weather`
+- Cách chia tốt nhất là **{sunny} vs {rainy, windy}**.
+- Gini_trọng_số(Weather) = (2/5)*Gini(sunny) + (3/5)*Gini({rainy,windy}) = (0.4 * 0) + (0.6 * 0.667) = **0.4**
+
+#### B. Thuộc tính `Money`
+- Gini_trọng_số(Money) = (4/5)*Gini(rich) + (1/5)*Gini(poor) = (0.8 * 0.625) + (0.2 * 0) = **0.5**
+
+So sánh Gini: 0.4 (Weather) < 0.5 (Money).
+**=> `Weather` được chọn làm nút tiếp theo.**
+
+---
+
+## Bước 3: Phát triển các nhánh từ nút `Weather` (trong nhánh `Parrent`='no')
+
+- **Nhánh 2.1: `Weather` = 'sunny'** (trong nhánh `Parrent` = 'no')
+  - Tập dữ liệu này có 2 mẫu: {tennis, tennis}.
+  - Đây là một **nút lá (leaf node)** và kết quả là **`tennis`**. Nhánh này kết thúc.
+
+- **Nhánh 2.2: `Weather` thuộc {rainy, windy}** (trong nhánh `Parrent` = 'no')
+  - Tập dữ liệu này chứa 3 mẫu, cần chia tiếp.
+  - **Bảng dữ liệu con (Parrent = no, Weather ∈ {rainy, windy}):**
+    | Weekend | Weather | Parrent | Money | Decision |
+    |---------|---------|---------|-------|----------|
+    | w5      | rainy   | no      | rich  | stayin   |
+    | w7      | windy   | no      | poor  | cinema   |
+    | w8      | windy   | no      | rich  | shopping |
+  - Thuộc tính duy nhất còn lại để chia là `Money`.
+
+### 3.1. Chia theo `Money`
+- **Nhánh 2.2.1: `Money` = 'poor'**
+  - Có 1 mẫu: {cinema}.
+  - Đây là một **nút lá (leaf node)** và kết quả là **`cinema`**. Nhánh này kết thúc.
+- **Nhánh 2.2.2: `Money` = 'rich'**
+  - Có 2 mẫu: {stayin, shopping}.
+  - Hết thuộc tính để chia. Nút này là **nút lá không thuần khiết**.
+  - Kết quả có thể là lớp có tần suất cao nhất. Ở đây tần suất bằng nhau (1 vs 1). Ta có thể chọn một trong hai, ví dụ **`stayin`**, hoặc liệt kê cả hai.
+
+---
+
+## Kết quả: Cây Quyết Định Hoàn Chỉnh
+
+Dưới đây là cấu trúc cây quyết định cuối cùng:
+
+1.  **Hỏi: `Parrent` == 'yes'?**
+    *   **Đúng:** => **`cinema`**
+    *   **Sai:** => Đi đến câu hỏi 2.
+
+2.  **Hỏi: `Weather` == 'sunny'?**
+    *   **Đúng:** => **`tennis`**
+    *   **Sai** (`Weather` là 'rainy' hoặc 'windy'): => Đi đến câu hỏi 3.
+
+3.  **Hỏi: `Money` == 'poor'?**
+    *   **Đúng:** => **`cinema`**
+    *   **Sai** (`Money` là 'rich'): => **`stayin` hoặc `shopping`** (Nút lá không thuần khiết)
+
+### Bảng Tóm Tắt Luật
+
+| Luật                                                   | Quyết Định (Decision) |
+|--------------------------------------------------------|-----------------------|
+| Nếu Parrent = 'yes'                                   | cinema                |
+| Nếu Parrent = 'no' VÀ Weather = 'sunny'               | tennis                |
+| Nếu Parrent = 'no' VÀ Weather != 'sunny' VÀ Money = 'poor' | cinema                |
+| Nếu Parrent = 'no' VÀ Weather != 'sunny' VÀ Money = 'rich' | stayin / shopping     |

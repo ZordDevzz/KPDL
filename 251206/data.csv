@@ -1,0 +1,7 @@
+weekend,humid,weather,wind,decision,
+w1,normal,rainy,weak,no,
+w2,normal,rainy,strong,no,
+w3,high,rainy,weak,no,
+w4,high,sunny,strong,no,
+w5,normal,sunny,weak,yes,
+w6,high,overcast,weak,yes,

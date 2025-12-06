@@ -1,0 +1,5 @@
+Hãy sử dụng thuật toán C4.5 để phân lớp tệp dữ liệu data
+	- tính gain cho các thuộc tính
+	- ghi rõ công thức cho với mỗi phép tính
+	- lập bảng cho từng bước tính
+xuất quá trình và kết quả ra output.md

@@ -1,0 +1,20 @@
+Bước,Điểm đầu vào,Toạ độ (x;y),Hành động,Cụm đích,Chi tiết tính toán (CF & Bán kính R),Ngưỡng T=1.5,Kết quả,Giải thích
+1,P1,(3; 4),Tạo Cụm 1 (C1),C1,"N=1; LS=(3, 4); SS=25; R=0.00",Ok,C1 hình thành,Điểm đầu tiên. Khởi tạo C1.
+2,P2,(2; 6),Gộp vào C1,C1,"N=2; LS=(5, 10); SS=65",-,,Thử gộp vào C1. Cập nhật tạm CF.
+2,P2,(2; 6),,Tính R,R = căn(65/2 - 2.5^2 - 5^2) = 1.12,Ok (1.12 <= 1.5),Thành công,Tính R mới. So sánh R <= 1.5. Thỏa mãn. -> CHẤP NHẬN.
+3,P3,(4; 5),Gộp vào C1,C1,"N=3; LS=(9, 15); SS=106",-,,Thử gộp vào C1. Cập nhật tạm CF.
+3,P3,(4; 5),,Tính R,R = căn(106/3 - 3^2 - 5^2) = 1.15,Ok (1.15 <= 1.5),Thành công,Tính R mới. So sánh R <= 1.5. Thỏa mãn. -> CHẤP NHẬN.
+4,P4,(4; 7),Gộp vào C1,C1,"N=4; LS=(13, 22); SS=171",-,,Thử gộp vào C1. Cập nhật tạm CF.
+4,P4,(4; 7),,Tính R,R = căn(171/4 - 3.25^2 - 5.5^2) = 1.39,Ok (1.39 <= 1.5),Thành công,Tính R mới. So sánh R <= 1.5. Thỏa mãn. -> CHẤP NHẬN.
+5,P5,(3; 8),Thử gộp C1,C1,Dự tính: N=5; R=1.60,Fail (1.60 > 1.5),THẤT BẠI,Thử gộp C1 nhưng R > 1.5. Thất bại. -> TỪ CHỐI.
+5,P5,(3; 8),-> Tạo Cụm 2 (C2),C2,"N=1; LS=(3, 8); SS=73; R=0.00",Ok,C2 hình thành,"Không gộp được, tạo cụm mới C2."
+6,P6,(6; 2),Thử gộp C1/C2,-,Xa cả C1 và C2,Fail,THẤT BẠI,Điểm quá xa tất cả các cụm. -> TỪ CHỐI.
+6,P6,(6; 2),-> Tạo Cụm 3 (C3),C3,"N=1; LS=(6, 2); SS=40; R=0.00",Ok,C3 hình thành,"Không gộp được, tạo cụm mới C3."
+7,P7,(7; 2),Gộp vào C3,C3,"N=2; LS=(13, 4); SS=93",-,,Thử gộp vào C3. Cập nhật tạm CF.
+7,P7,(7; 2),,Tính R,R = căn(93/2 - 6.5^2 - 2^2) = 0.50,Ok (0.50 <= 1.5),Thành công,Tính R mới. So sánh R <= 1.5. Thỏa mãn. -> CHẤP NHẬN.
+8,P8,(7; 4),Gộp vào C3,C3,"N=3; LS=(20, 8); SS=158",-,,Thử gộp vào C3. Cập nhật tạm CF.
+8,P8,(7; 4),,Tính R,R = căn(158/3 - 6.66^2 - 2.66^2) = 1.05,Ok (1.05 <= 1.5),Thành công,Tính R mới. So sánh R <= 1.5. Thỏa mãn. -> CHẤP NHẬN.
+9,P9,(7; 4),Gộp vào C3,C3,"N=4; LS=(27, 12); SS=223",-,,Thử gộp vào C3. Cập nhật tạm CF.
+9,P9,(7; 4),,Tính R,R = căn(223/4 - 6.75^2 - 3^2) = 1.09,Ok (1.09 <= 1.5),Thành công,Tính R mới. So sánh R <= 1.5. Thỏa mãn. -> CHẤP NHẬN.
+10,P10,(8; 9),Thử gộp các cụm,-,"Xa C1, C2, C3",Fail,THẤT BẠI,Điểm quá xa tất cả các cụm. -> TỪ CHỐI.
+10,P10,(8; 9),-> Tạo Cụm 4 (C4),C4,"N=1; LS=(8, 9); SS=145; R=0.00",Ok,C4 hình thành (Ngoại lai),"Không gộp được, tạo cụm mới C4. -> Có thể là nhiễu."
