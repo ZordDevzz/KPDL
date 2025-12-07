@@ -1,0 +1,11 @@
+ID	Practical Knowledge	Comm Skill	CGPA	Interactive	Job Offer
+A1	Very good	Good	A	TRUE	Yes
+A2	Good	Morderate	B	FALSE	Yes
+A3	Average	Poor	A	FALSE	No
+A4	Average	Good	C	FALSE	No
+A5	Good	Morderate	B	TRUE	Yes
+A6	Good	Morderate	A	TRUE	Yes
+A7	Good	Poor	C	TRUE	No
+A8	Very good	Good	A	FALSE	Yes
+A9	Good	Good	B	TRUE	Yes
+A10	Average	Good	B	TRUE	Yes

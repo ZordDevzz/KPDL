@@ -100,3 +100,19 @@ Formula: `GR(A) = Gain(A) / SI(A)`
 | humid | 0.000 | 1.000 | 0.000 |
 
 **Conclusion:** The feature with the highest Gain Ratio is **'weather'** with a GR of **0.401**.
+
+### 4. Decision Tree
+Root: **weather**
+
+```
+├── If weather = overcast:
+│   └── Decision: yes
+├── If weather = rainy:
+│   └── Decision: no
+└── If weather = sunny:
+    ├── If humid = high:
+    │   └── Decision: no
+    └── If humid = normal:
+        └── Decision: yes
+
+```
