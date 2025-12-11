@@ -1,4 +1,4 @@
---- Model Evaluation (Test Set) ---
-R-squared (Accuracy): 0.9884
+--- Đánh giá Mô hình (Tập Test) ---
+R-squared (Độ chính xác): 0.9884
 Mean Squared Error (MSE): 4.3059
 Mean Absolute Error (MAE): 1.6470

@@ -25,10 +25,10 @@ def evaluate_model(model, X, y, dataset_name="Test"):
     # Lưu các chỉ số vào tệp văn bản
     metrics_path = os.path.join(config.EVAL_DIR, f"{dataset_name.lower()}_metrics.txt")
     with open(metrics_path, "w", encoding='utf-8') as f:
-        f.write(f"--- Đánh giá Mô hình (Tập {dataset_name}) ---")
-        f.write(f"R-squared (Độ chính xác): {r2:.4f}")
-        f.write(f"Mean Squared Error (MSE): {mse:.4f}")
-        f.write(f"Mean Absolute Error (MAE): {mae:.4f}")
+        f.write(f"--- Đánh giá Mô hình (Tập {dataset_name}) ---\n")
+        f.write(f"R-squared (Độ chính xác): {r2:.4f}\n")
+        f.write(f"Mean Squared Error (MSE): {mse:.4f}\n")
+        f.write(f"Mean Absolute Error (MAE): {mae:.4f}\n")
     print(f"Các chỉ số đánh giá đã được lưu tại {metrics_path}")
 
     # Đảm bảo y là mảng 1 chiều để vẽ biểu đồ

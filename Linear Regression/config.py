@@ -20,6 +20,10 @@ EVAL_DIR = os.path.join(PROJECT_ROOT, "eval")
 
 LOG_DIR = os.path.join(PROJECT_ROOT, "logs")
 
+# Transformer paths
+SCALER_PATH = os.path.join(MODEL_DIR, "scaler.pkl")
+LABEL_ENCODER_PATH = os.path.join(MODEL_DIR, "label_encoder.pkl")
+
 # Ensure all directories exist
 for directory in [
     DATA_DIR,

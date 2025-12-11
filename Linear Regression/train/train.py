@@ -4,23 +4,33 @@ from sklearn.linear_model import LinearRegression
 import joblib
 import os
 import config
+from handlers import data_utils
 
 def train_model():
     """
     Xây dựng và huấn luyện mô hình Hồi quy Tuyến tính.
     Lưu mô hình và tập dữ liệu kiểm tra (test).
+    Lưu các bộ chuyển đổi đã khớp (scaler và label encoder).
     """
-    if not os.path.exists(config.TRANFORMED_DATA_PATH):
-        raise FileNotFoundError(f"Dữ liệu đã chuyển đổi không tìm thấy tại {config.TRANFORMED_DATA_PATH}. Hãy chạy pipeline trước.")
+    if not os.path.exists(config.CLEANED_DATA_PATH):
+        raise FileNotFoundError(f"Dữ liệu đã làm sạch không tìm thấy tại {config.CLEANED_DATA_PATH}. Hãy chạy bước làm sạch dữ liệu trước.")
 
-    print("Đang tải dữ liệu để huấn luyện...")
-    df = pd.read_csv(config.TRANFORMED_DATA_PATH)
+    print("Đang tải dữ liệu đã làm sạch để huấn luyện...")
+    df_clean = pd.read_csv(config.CLEANED_DATA_PATH)
     
-    if config.TARGET_COLUMN not in df.columns:
-        raise ValueError(f"Cột mục tiêu '{config.TARGET_COLUMN}' không tìm thấy trong dữ liệu.")
+    # Thực hiện chuyển đổi dữ liệu và lưu các bộ chuyển đổi
+    print("Đang thực hiện chuyển đổi dữ liệu và khớp các bộ chuyển đổi...")
+    df_transformed, scaler, label_encoder = data_utils.data_transform(df_clean)
+    data_utils.save_transformers(scaler, label_encoder)
+    
+    df_transformed.to_csv(config.TRANFORMED_DATA_PATH, index=False)
+    print(f"Dữ liệu đã chuyển đổi được lưu tại {config.TRANFORMED_DATA_PATH}")
 
-    X = df.drop(columns=[config.TARGET_COLUMN])
-    y = df[config.TARGET_COLUMN]
+    if config.TARGET_COLUMN not in df_transformed.columns:
+        raise ValueError(f"Cột mục tiêu '{config.TARGET_COLUMN}' không tìm thấy trong dữ liệu đã chuyển đổi.")
+
+    X = df_transformed.drop(columns=[config.TARGET_COLUMN])
+    y = df_transformed[config.TARGET_COLUMN]
     
     # Chia dữ liệu
     # Sử dụng random_state để đảm bảo tính tái lập
